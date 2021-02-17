@@ -1,0 +1,22 @@
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Docker Build
+      run: ./build-aux/docker-build/build.sh
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: gpg4win
+        path: ./build-aux/docker-build/installers/gpg4win-*.exe
