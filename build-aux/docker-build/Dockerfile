@@ -18,6 +18,12 @@ RUN apt-get -y update && \
     gperf libgettextpo-dev automake-1.15 libkf5config-dev libkf5config-dev-bin \
     libkf5coreaddons-dev gpgrt-tools imagemagick
 
+# gpg4win-packages is a cache of /gpg4win/packages. This exsits only to make
+# the build reliable. Without this cache, the build will fail if any endpoint
+# listed in /gpg4win/packages/packages.current fails. container-build.sh will
+# copy these files into place later.
+COPY /build-aux/docker-build/gpg4win-packages /gpg4win-packages
+
 # Debian's default image magick policy disables ghostscript, so overwrite it
 # with a more permissive policy.
 COPY /build-aux/docker-build/ImageMagick-6-policy.xml /etc/ImageMagick-6/policy.xml

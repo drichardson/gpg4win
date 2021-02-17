@@ -9,6 +9,13 @@ SCRIPTDIR=$(readlink -f "$SCRIPTDIR")
 GPG4WINDIR=$(readlink -f "$SCRIPTDIR/../..")
 OUTPUTDIR="$SCRIPTDIR/installers"
 
+# Download and update the package cache this is used by the Dockerfile.
+PACKAGECACHE="$SCRIPTDIR/gpg4win-packages"
+if [[ ! -d "$PACKAGECACHE" ]]; then
+	git clone https://github.com/drichardson/gpg4win-packages.git "$PACKAGECACHE"
+fi
+git -C "$PACKAGECACHE" pull --ff-only
+
 # Build the image.
 docker image build -f "$SCRIPTDIR/Dockerfile" -t $IMAGE "$GPG4WINDIR"
 
