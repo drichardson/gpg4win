@@ -231,35 +231,6 @@ chk  1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c
 
 
 #
-# GpgOL
-#
-server http://files.gpg4win.org/src
-
-# by: ah
-# verified: Sig 5B80 C575 4298 F0CB  55D8 ED6A BCEF 7E29 4B09 2E28
-file gpgol/gpgol-2.4.10.tar.bz2
-chk  d15c055b02ac6e10cf45043db1578392a112250f509e7cc832d22bca0db665d3
-
-
-# for beta
-#server http://files.intevation.de/projects/gpg4all
-
-#file gpgol/gpgol-2.4.3-beta17.tar.bz2
-#chk 6d14b76c48547706d90a5c543670320be98e6a00aa72e0fb95ee1569a25e6be3
-
-
-#
-# GpgEX
-#
-server http://files.gpg4win.org/src
-
-# last-changed: 2021-01-26
-# by: ah
-# verified: Sig 5B80 C575 4298 F0CB  55D8 ED6A BCEF 7E29 4B09 2E28
-file gpgex/gpgex-1.0.7.tar.bz2
-chk  ff6b9cce03d835bbf0fbfd5fbe986ed42813ababa4a98a791da8b57d745b5848
-
-#
 # Pth emulation
 #
 
@@ -283,14 +254,14 @@ chk  c2a9b3aec1a38d34b66106116a39f64b01d84f475fef75c40ea0bda0ea67ed07
 # GnuPG et al.
 #
 # All tarballs from this server are verified with an openpgp
-# signature made by "Werner Koch (dist sig)".
-# D869 2123 C406 5DEA 5E0F  3AB5 249B 39D2 4F25 E3B6
-server ftp://ftp.gnupg.org/gcrypt
+# signature made by "Werner Koch (dist sig)" or one of the other
+# gnupg main contributors.
+# Server changed from ftp to https by wk 2021-09-22
+server https://gnupg.org/ftp/gcrypt
 
 # last changed 2021-04-21
 # by ah
 # verified: distsigkey.gpg
-server ftp://ftp.gnupg.org/gcrypt
 file libgpg-error/libgpg-error-1.42.tar.bz2
 chk fc07e70f6c615f8c4f590a8e37a9b8dd2e2ca1e9408f8e60459c67452b925e23
 
@@ -319,12 +290,10 @@ chk  46f7bf49ac5445370012a3698e048cd994579981df28f80f8b8494cf45869e8d
 #file binary/gnupg-w32-2.3.1_20210420.wixlib
 #chk  133817a4c4d11996956676c5c200222839ee5dc16e9476bd682d4e68b33ef73e
 
-server ftp://ftp.gnupg.org/gcrypt
-
 # last changed: 2021-04-21
 # by: ah
-file pinentry/pinentry-1.1.1.tar.bz2
-chk  cd12a064013ed18e2ee8475e669b9f58db1b225a0144debdb85a68cecddba57f
+file pinentry/pinentry-1.2.0.tar.bz2
+chk  10072045a3e043d0581f91cd5676fcac7ffee957a16636adedaa4f583a616470
 
 # last changed: 2021-01-08
 # by: wk
@@ -341,6 +310,24 @@ chk  95dbabe75fa5c8dc47e3acf2df7a51cee096051e5a842b4c9b6d61e40a6177b1
 # by: ah
 file scute/scute-1.7.0.tar.bz2
 chk 437fe758b27c243a5ee2535c6b065ea1d09f2c9a02d83567d2f934bb6395c249
+
+#
+# GpgOL
+#
+# by: ah
+# verified: Sig 5B80 C575 4298 F0CB  55D8 ED6A BCEF 7E29 4B09 2E28
+file gpgol/gpgol-2.5.0.tar.bz2
+chk  76cb742ae53cf54f2d42d258f6ba657d2b98c752d2c742b1e4f04b26a6baf0df
+
+#
+# GpgEX
+#
+# last-changed: 2021-09-22
+# by: wk
+# verified: distsigkey.gpg
+file gpgex/gpgex-1.0.8.tar.bz2
+chk  dc044904e0d2dfe28ba1dca9a55b5b4abd306070b9f34e122493b332d15f8b14
+
 
 #
 #  GnuPG utilities
@@ -565,25 +552,25 @@ server http://files.intevation.de/projects/gpg4all
 # chk c2091536687cd83569c9919d6d9fc8c3a53e74d8419320bcbb8b7dc36019c677
 
 # by: ah
-# file gpgme/gpgme-1.15.1-beta13.tar.bz2
-# chk a547c1c5ecb493e96e7a3c68fcfea4aa89c850110d33706fcc9ab93644f9a502
+file gpgme/gpgme-1.16.1-beta14.tar.bz2
+chk 941118668e7ed7bb907c09f7f2b9d803162e1023db713bb306815fe5e8da1168
 
 # Libkleo
 # last changed: see package date.
 # by: ah
 # verified: Tarball created by ah.
-file libkleo/libkleo-202104211047.tar.gz
-chk ce488563578b0a4b2b0bb41cb2d09bd3ef3139f73d75a8fd322ec57fa851a721
+file libkleo/libkleo-202108261518.tar.gz
+chk aa5e5da428075f61a3bb62e8e0065efd8756cf535558c254d1de94e6efce1ff1
 
 # KDE-L10n
 # last changed: see package date.
 # by: ah
 # verified: Tarball created by ah with script kde-l10n.sh
-file kde-l10n/kde-l10n-202104261621-bin.tar.xz
-chk  7d8186d048212bc43f35c0a53afec2202a072fdd2a0fa9148dc2d2b3329d3b77
+file kde-l10n/kde-l10n-202109141048-bin.tar.xz
+chk  dc7b20473a5fe314e491e6f7e365a7e9464422b9d039fe9e834aac26353b1d4d
 
-file kde-l10n/kde-l10n-202104261621-src.tar.xz
-chk  751fbf7c24bb7388e20eb9ee1c3ea277e81a663551725ed931f6cdc568bfd503
+file kde-l10n/kde-l10n-202109141048-src.tar.xz
+chk  d68abe3c6f03b5934bee380b88c66bf27c23eed658c8a11fb57357bc85038a92
 
 # Gpg4win-tools package
 # last changed: see package date.
@@ -592,9 +579,15 @@ chk  751fbf7c24bb7388e20eb9ee1c3ea277e81a663551725ed931f6cdc568bfd503
 file gpg4win-tools/gpg4win-tools-202104211124.tar.gz
 chk 79ea82ede46bbd02f70a64e4f003c6279e98cf4ad1e302eca753087c42fccdf3
 
-# Kleopatra
-# last changed: see package date.
-# by: ah
-# verified: Tarball created by ah.
-file kleopatra/kleopatra-202104211047.tar.gz
-chk c3fad40c7d053d3043f5576f81c25242ba940a592e4d99caa63adca450fdb53d
+
+#
+# Snapshots stored on the GnuPG server
+#
+server ftp://ftp.gnupg.org/gcrypt/snapshots
+
+# kleopatra
+# last changed: 2021-10-09
+# by: wk
+# verified: Tarball created by wk.
+file kleopatra/kleopatra-202110091719.tar.xz
+chk ff519b18c76bf39b3c3a37e9027a2b3f87e37940e72e40e9d62736b6c2aa5438
