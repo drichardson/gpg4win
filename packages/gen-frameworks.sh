@@ -1,5 +1,8 @@
 #!/bin/bash
 # Copyright (C) 2016 Intevation GmbH
+# Copyright (C) 2021 g10 Code GmbH
+#
+# Software engineering by Ingo Klöcker <dev@ingo-kloecker.de>
 #
 # This file is part of GPG4Win.
 #
@@ -14,13 +17,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
+# along with this program; if not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-2.0+
 
 # Grab the version information for KDE Frameworks and generate a text block
 # that can be copy and pasted into packages.current.
-#
-# Ideally KDE will PGP Sign their releases soon.
 
 set -e
 
@@ -38,6 +40,7 @@ FRAMEWORKS="extra-cmake-modules
     kcoreaddons
     kcodecs
     kconfigwidgets
+    kdbugaddons
     kxmlgui
     kguiaddons
     kitemviews
@@ -47,30 +50,58 @@ FRAMEWORKS="extra-cmake-modules
     karchive
     kcrash"
 
-tmpdir=$(mktemp -d)
+fullversion=$1
+case ${fullversion} in
+    *.*.*)
+        majorversion=${fullversion%.*}
+        ;;
+    *.*)
+        majorversion=${fullversion}
+        fullversion=${majorversion}.0
+        echo "Using full version ${fullversion}"
+        ;;
+    *)
+        echo "Invalid version ${fullversion}"
+        exit 1
+        ;;
+esac
 
-majorversion=$(echo $1 | head -c 4)
 curdate=$(date +%Y-%m-%d)
 
-KEYRING=$(dirname $0)/kde-release-key.gpg
+KEYRING=$(dirname $0)/kde-release-keys.gpg
+
+server=https://download.kde.org/stable/frameworks
+echo "server ${server}"
+
+tmpdir=$(mktemp -d -t gen-frameworks.XXXXXXXXXX)
 
 for fw in $FRAMEWORKS; do
-    # Download pacakges over https now and verify that the signature matches
-    curl -L -s "https://download.kde.org/stable/frameworks/$majorversion/$fw-$1.tar.xz" > "$tmpdir/$fw-$1.tar.xz"
-    curl -L -s "https://download.kde.org/stable/frameworks/$majorversion/$fw-$1.tar.xz.sig" > "$tmpdir/$fw-$1.tar.xz.sig"
+    # Download packages over https now and verify that the signature matches
+    tarfile="$fw-${fullversion}.tar.xz"
+    tarfileurl="${server}/$majorversion/${tarfile}"
+    if ! curl -L --silent --show-error --fail "${tarfileurl}" > "$tmpdir/${tarfile}"; then
+        echo "Downloading ${tarfileurl} failed"
+        exit 1
+    fi
+    sigfile="${tarfile}.sig"
+    sigfileurl="${tarfileurl}.sig"
+    if ! curl -L --silent --show-error --fail "${sigfileurl}" > "$tmpdir/${sigfile}"; then
+        echo "Downloading ${sigfileurl} failed"
+        exit 1
+    fi
     # Check the signature
-    if ! gpgv --keyring "$KEYRING" "$tmpdir/$fw-$1.tar.xz.sig" "$tmpdir/$fw-$1.tar.xz"; then
-        echo "Signature for $tmpdir/$fw-$1.tar.xz! does not match!"
+    if ! gpgv --keyring "$KEYRING" "$tmpdir/${sigfile}" "$tmpdir/${tarfile}"; then
+        echo "Signature for $tmpdir/${tarfile} is not valid!"
         exit 1
     fi
 
-    sha2=$(sha256sum $tmpdir/$fw-$1.tar.xz | cut -d ' ' -f 1)
+    sha2=$(sha256sum $tmpdir/${tarfile} | cut -d ' ' -f 1)
 
     echo "# $fw"
     echo "# last changed: $curdate"
     echo "# by: ah"
-    echo "# verified: PGP Signed by ./kde-release-key.gpg (created by gen-frameworks.sh)"
-    echo "file $majorversion/$fw-$1.tar.xz"
+    echo "# verified: PGP Signed by ./kde-release-keys.gpg (created by gen-frameworks.sh)"
+    echo "file $majorversion/${tarfile}"
     echo "chk $sha2"
     echo ""
 done

@@ -20,29 +20,60 @@ ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
 DISTCHECK_CONFIGURE_FLAGS = --host=i686-w64-mingw32
 
-SUBDIRS = po packages doc src
+if BUILD_GPG4WIN
+po = po
+else
+po =
+endif
+if BUILD_GPG4WIN
+doc = doc
+else
+doc =
+endif
+
+SUBDIRS = ${po} packages ${doc} src
 
 # find patches -type f | sort | sed 's/$/ \\/' | sed 's/^/             /'
+# find patches-appimage -type f | sort | sed 's/$/ \\/' | sed 's/^/             /'
 
 EXTRA_DIST = autogen.sh README.GIT ONEWS \
-        doc/license-page doc/GPLv3 \
-        build-aux/git-log-footer build-aux/git-log-fix \
-		patches/boost/boost-1-fixes.patch \
-        patches/extra-cmake-modules/0001-Use-BIN_INSTALL_DIR-data-for-DATAROOTDIR-on-Windows.patch \
-        patches/glib-2.41.5/01-socket.patch \
-        patches/glib-2.41.5/02-formatsec.patch \
-        patches/kconfigwidgets/0001-Make-QDbus-optional.patch \
-        patches/kiconthemes/0001-Make-DBus-optional.patch \
-        patches/kxmlgui/0001-make-qdbus-optional.patch \
-        patches/kxmlgui/0004-Cruedly-disable-KSendbugmail.patch \
-        patches/qtbase/0001-Fix-build-without-std-thread.patch \
-        patches/qtbase/0002-Gpg4win-theme-names-and-relpaths.patch \
-        patches/qtbase/0001-Gpg4win-qstandardpaths-patch.patch \
-        patches/qttools/disable-most-tools.patch \
-        patches/w32pth-2.0.5/workaround-broken-libtool.patch \
-        patches/breeze-icons/0001-Make-binary-icons-cross-compilable.patch \
-        patches/libkleo/lower-cmake-requirement.patch \
-        patches/kleopatra/lower-cmake-requirement.patch
+             doc/license-page doc/GPLv3 \
+             build-aux/git-log-footer build-aux/git-log-fix \
+             docker/appimage/build-appimage.sh \
+             docker/appimage/Dockerfile \
+             docker/build-appimage-docker-image.sh \
+             docker/run-appimage-build.sh \
+             patches/boost/boost-1-fixes.patch \
+             patches/breeze-icons/0001-Make-binary-icons-cross-compilable.patch \
+             patches/extra-cmake-modules/0001-Use-BIN_INSTALL_DIR-data-for-DATAROOTDIR-on-Windows.patch \
+             patches/glib-2.41.5/01-socket.patch \
+             patches/glib-2.41.5/02-formatsec.patch \
+             patches/gpgol/0001-Enable-sync-encryption-again.patch \
+             patches/kconfigwidgets/0001-Make-QDbus-optional.patch \
+             patches/kiconthemes/0001-Make-DBus-optional.patch \
+             patches/kleopatra/build-fixes.patch \
+             patches/kleopatra/lower-cmake-requirement.patch \
+             patches/kleopatra/set-cxx-standard.patch \
+             patches/kxmlgui/0001-make-qdbus-optional.patch \
+             patches/kxmlgui/0004-Cruedly-disable-KSendbugmail.patch \
+             patches/libkleo/0001-Revert-Use-more-target-centric-cmake-code.patch \
+             patches/libkleo/lower-cmake-requirement.patch \
+             patches/libkleo/set-cxx-standard.patch \
+             patches/qtbase/0001-Fix-build-without-std-thread.patch \
+             patches/qtbase/0001-Gpg4win-qstandardpaths-patch.patch \
+             patches/qtbase/0002-Gpg4win-theme-names-and-relpaths.patch \
+             patches/qtbase/0003-Fix-build-with-GCC-11-include-limits.patch \
+             patches/qttools/disable-most-tools.patch \
+             patches/w32pth-2.0.5/workaround-broken-libtool.patch \
+             patches-appimage/gnupg-2.3.2/0001-agent-Fix-segv-in-GET_PASSPHRASE-regression.patch \
+             patches-appimage/gnupg-2.3.2/0002-build-Fix-ksba.h-not-found-problem.patch \
+             patches-appimage/gnupg-2.3.2/0003-common-New-function-substitute_envvars.patch \
+             patches-appimage/gnupg-2.3.2/0004-common-Support-a-gpgconf.ctl-file-under-Unix.patch \
+             patches-appimage/gnupg-2.3.2/0005-build-Fix-several-include-file-not-found-problems.patch \
+             patches-appimage/kconfigwidgets/0001-build-without-KF5Auth.patch \
+             patches-appimage/libkleo-21.08.1/0001-Add-support-for-non-standard-boost-include-directori.patch \
+             patches-appimage/libkleo-21.08.1/z-01-use-pre-5.80-ecm_qt_declare_logging_category.patch \
+             patches-appimage/qtwayland-5.15.0/00-disable-wayland-server.patch
 
 copy-news:
 	cp NEWS doc/website/NEWS.last
